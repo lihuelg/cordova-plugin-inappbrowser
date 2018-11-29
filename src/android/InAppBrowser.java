@@ -640,7 +640,7 @@ public class InAppBrowser extends CordovaPlugin {
      * @param features jsonObject
      * @param headers headers for navigation
      */
-    public String showWebPage(final String url, HashMap<String, String> features, HashMap<String, String> headers) {
+    public String showWebPage(final String url, HashMap<String, String> features, final HashMap<String, String> headers) {
         // Determine if we should hide the location bar.
         showLocationBar = true;
         showZoomControls = true;
