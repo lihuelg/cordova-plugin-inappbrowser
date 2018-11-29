@@ -91,7 +91,7 @@
 + (NSMutableURLRequest*)createRequest:(NSURL*)url headers:(NSString*)headers
 {
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
-	if (header != nil) {
+	if (headers != nil) {
 		 NSArray* pairs = [headers componentsSeparatedByString:@","];
 		 for (NSString* pair in pairs) {
 			NSArray* keyvalue = [pair componentsSeparatedByString:@"="];
