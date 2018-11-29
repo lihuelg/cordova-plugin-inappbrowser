@@ -115,18 +115,25 @@
         var cb = function (eventname) {
             iab._eventHandler(eventname);
         };
-		var strWindowHeaders''
-		var first = true;
-		for (var k in windowHeaders) {
-			if (windowHeaders.hasOwnProperty(k)) {
-				var key = k.replace(/@/gi,'@a').replace(/,/gi,'@c').replace(/=/gi,'@e');
-				var value = windowHeaders[k].toString().replace(/@/gi,'@a').replace(/,/gi,'@c').replace(/=/gi,'@e');
-				if (first) {
-					firt = false;
-				} else  {
-					strWindowHeaders += ",";
+		var strWindowHeaders = ''; 
+		if (windowHeaders) {
+			if (typeof windowHeaders === 'string' || windowHeaders instanceof String) {
+				strWindowHeaders = windowHeaders.replace(/@/gi,'@a');
+			}
+			else {
+				var first = true;				
+				for (var k in windowHeaders) {
+					if (windowHeaders.hasOwnProperty(k)) {
+						var key = k.replace(/@/gi,'@a').replace(/,/gi,'@c').replace(/=/gi,'@e');
+						var value = windowHeaders[k].toString().replace(/@/gi,'@a').replace(/,/gi,'@c').replace(/=/gi,'@e');
+						if (first) {
+							firt = false;
+						} else  {
+							strWindowHeaders += ",";
+						}
+						strWindowHeaders += key + "=" + value;				
+					}
 				}
-				strWindowHeaders += key + "=" + value;				
 			}
 		}
         strWindowFeatures = strWindowFeatures || '';        
