@@ -127,7 +127,7 @@
 						var key = k.replace(/@/gi,'@a').replace(/,/gi,'@c').replace(/=/gi,'@e');
 						var value = windowHeaders[k].toString().replace(/@/gi,'@a').replace(/,/gi,'@c').replace(/=/gi,'@e');
 						if (first) {
-							firt = false;
+							first = false;
 						} else  {
 							strWindowHeaders += ",";
 						}
