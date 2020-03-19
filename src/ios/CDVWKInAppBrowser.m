@@ -351,12 +351,8 @@ static CDVWKInAppBrowser* instance = nil;
 - (void)openInCordovaWebView:(NSURL*)url withOptions:(NSString*)options  withHeaders:(NSString*)headers
 {
     NSMutableURLRequest* request = [CDVInAppBrowserOptions createRequest:url headers:headers];
-    
-    if ([self.commandDelegate URLIsWhitelisted:url]) {
-        [self.webView loadRequest:request];
-    } else { // this assumes the InAppBrowser can be excepted from the white-list
-        [self openInInAppBrowser:url withOptions:options withHeaders:headers];
-    }
+        
+    [self openInInAppBrowser:url withOptions:options withHeaders:headers];
 }
 
 - (void)openInSystem:(NSURL*)url
