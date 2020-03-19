@@ -350,7 +350,7 @@ static CDVWKInAppBrowser* instance = nil;
 
 - (void)openInCordovaWebView:(NSURL*)url withOptions:(NSString*)options  withHeaders:(NSString*)headers
 {
-    NSMutableURLRequest* request = [CDVInAppBrowserOptions createRequest:url headers:headers];
+    NSURLRequest* request = [CDVInAppBrowserOptions createRequest:url headers:headers];
     // the webview engine itself will filter for this according to <allow-navigation> policy
     // in config.xml for cordova-ios-4.0
     [self.webViewEngine loadRequest:request];
@@ -1080,7 +1080,7 @@ BOOL isExiting = FALSE;
 
 - (void)navigateTo:(NSURL*)url headers:(NSString*)headers
 {
-    NSMutableURLRequest* request = [CDVInAppBrowserOptions createRequest:url headers:headers]; 
+    NSURLRequest* request = [CDVInAppBrowserOptions createRequest:url headers:headers]; 
     [self.webView loadRequest:request];
 }
 
