@@ -351,8 +351,8 @@ static CDVWKInAppBrowser* instance = nil;
 - (void)openInCordovaWebView:(NSURL*)url withOptions:(NSString*)options  withHeaders:(NSString*)headers
 {
     NSMutableURLRequest* request = [CDVInAppBrowserOptions createRequest:url headers:headers];
-        
-    [self openInInAppBrowser:url withOptions:options withHeaders:headers];
+
+    [self.webViewEngine loadRequest:request];
 }
 
 - (void)openInSystem:(NSURL*)url
