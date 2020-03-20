@@ -396,7 +396,7 @@ static CDVWKInAppBrowser* instance = nil;
 - (void)injectDeferredObject:(NSString*)source withWrapper:(NSString*)jsWrapper
 {
     // Ensure a message handler bridge is created to communicate with the CDVWKInAppBrowserViewController
-    [self evaluateJavaScript: [NSString stringWithFormat:@"(function(w){if(!w._cdvMessageHandler) {w._cdvMessageHandler = function(id,d){w.webkit.messageHandlers.%@.postMessage({d:d, id:id});}}})(window)", IAB_BRIDGE_NAME]];
+    [self.inAppBrowserViewController evaluateJavaScript: [NSString stringWithFormat:@"(function(w){if(!w._cdvMessageHandler) {w._cdvMessageHandler = function(id,d){w.webkit.messageHandlers.%@.postMessage({d:d, id:id});}}})(window)", IAB_BRIDGE_NAME]];
     
     if (jsWrapper != nil) {
         NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@[source] options:0 error:nil];
@@ -404,26 +404,11 @@ static CDVWKInAppBrowser* instance = nil;
         if (sourceArrayString) {
             NSString* sourceString = [sourceArrayString substringWithRange:NSMakeRange(1, [sourceArrayString length] - 2)];
             NSString* jsToInject = [NSString stringWithFormat:jsWrapper, sourceString];
-            [self evaluateJavaScript:jsToInject];
+            [self.inAppBrowserViewController evaluateJavaScript:jsToInject];
         }
     } else {
-        [self evaluateJavaScript:source];
+        [self.inAppBrowserViewController evaluateJavaScript:source];
     }
-}
-
-
-//Synchronus helper for javascript evaluation
-- (void)evaluateJavaScript:(NSString *)script {
-    __block NSString* _script = script;
-    [self.inAppBrowserViewController.webView evaluateJavaScript:script completionHandler:^(id result, NSError *error) {
-        if (error == nil) {
-            if (result != nil) {
-                NSLog(@"%@", result);
-            }
-        } else {
-            NSLog(@"evaluateJavaScript error : %@ : %@", error.localizedDescription, _script);
-        }
-    }];
 }
 
 - (void)injectScriptCode:(CDVInvokedUrlCommand*)command
@@ -1092,6 +1077,21 @@ BOOL isExiting = FALSE;
 - (void)goForward:(id)sender
 {
     [self.webView goForward];
+}
+
+
+//Synchronus helper for javascript evaluation
+- (void)evaluateJavaScript:(NSString *)script {
+    __block NSString* _script = script;
+    [self.webView evaluateJavaScript:script completionHandler:^(id result, NSError *error) {
+        if (error == nil) {
+            if (result != nil) {
+                NSLog(@"%@", result);
+            }
+        } else {
+            NSLog(@"evaluateJavaScript error : %@ : %@", error.localizedDescription, _script);
+        }
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
