@@ -87,4 +87,27 @@
     return obj;
 }
 
++ (NSMutableURLRequest*)createRequest:(NSURL*)url headers:(NSString*)headers
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *mutableRequest = [request mutableCopy];
+    
+    if (headers != nil) {
+		 NSArray* pairs = [headers componentsSeparatedByString:@","];
+		 for (NSString* pair in pairs) {
+			NSArray* keyvalue = [pair componentsSeparatedByString:@"="];
+
+			if ([keyvalue count] == 2) {
+				NSString* key = [[[[keyvalue objectAtIndex:0] stringByReplacingOccurrencesOfString:@"@e" withString:@"="] stringByReplacingOccurrencesOfString:@"@c" withString:@","] stringByReplacingOccurrencesOfString:@"@a" withString:@"@"];
+				NSString* value = [[[[keyvalue objectAtIndex:1] stringByReplacingOccurrencesOfString:@"@e" withString:@"="] stringByReplacingOccurrencesOfString:@"@c" withString:@","] stringByReplacingOccurrencesOfString:@"@a" withString:@"@"];
+				[mutableRequest setValue:value forHTTPHeaderField:key];
+			}
+		}		
+	}
+    
+    request = [mutableRequest copy];
+    
+	return request;
+}
+
 @end
